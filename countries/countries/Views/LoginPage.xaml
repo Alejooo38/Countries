@@ -5,14 +5,16 @@
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Countries">
     <ContentPage.Content>
-        <ScrollView>
+        <ScrollView
+            BindingContext="{Binding Login}">
             <StackLayout
                 Padding="5">
                 <Image                
                     Source="onu"
                     WidthRequest="200">
                 </Image>
-                <Grid Margin="10,0">
+                <Grid Margin="10,0"
+                      VerticalOptions="CenterAndExpand">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="2*"/>
@@ -27,7 +29,8 @@
                         Grid.Row="0"
                         Grid.Column="1"
                         Keyboard="Email"
-                        Placeholder="Enter your email...">
+                        Placeholder="Enter your email..."
+                        Text="{Binding Email, Mode=TwoWay}">
                     </Entry>
                     <Label
                         Grid.Row="1"
@@ -38,20 +41,25 @@
                         Grid.Row="1"
                         Grid.Column="1"
                         IsPassword="True"
-                        Placeholder="Enter your password...">
+                        Placeholder="Enter your password..."
+                        Text="{Binding Password, Mode=TwoWay}">
                     </Entry>
                 </Grid>
-                <ActivityIndicator>
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunnning, Mode=TwoWay}"
+                    VerticalOptions="CenterAndExpand">
                 </ActivityIndicator>
                 <StackLayout
                     Margin="10,0"
-                    Orientation="Horizontal">
+                    Orientation="Horizontal"
+                    VerticalOptions="CenterAndExpand">
                     <Label
                         HorizontalOptions="StartAndExpand"
                         Text="Rememberme on this device"
                         VerticalOptions="Center">
                     </Label>
                     <Switch
+                        IsToggled="{Binding IsRemmembered, Mode=TwoWay}"
                         HorizontalOptions="End">
                     </Switch>
                 </StackLayout>
@@ -59,17 +67,21 @@
                 <Label
                     HorizontalOptions="Center"
                     TextColor="Blue"
-                    Text="Forgot your password...">
+                    Text="Forgot your password..."
+                    VerticalOptions="CenterAndExpand">
                 </Label>
 
                 <StackLayout
                     Orientation="Horizontal"
-                    Margin="40,0">
+                    Margin="40,0"
+                    VerticalOptions="CenterAndExpand">
                     <Button
                         BackgroundColor="GreenYellow"
                         BorderRadius="23"
+                        Command="{Binding LoginCommand}"
                         HeightRequest="46"
                         HorizontalOptions="FillAndExpand"
+                        IsEnabled="{Binding IsEnable, Mode=TwoWay}"
                         Text="Login"
                         TextColor="White">
                     </Button>
@@ -78,6 +90,7 @@
                         BorderRadius="23"
                         HeightRequest="46"
                         HorizontalOptions="FillAndExpand"
+                        IsEnabled="{Binding IsEnable, Mode=TwoWay}"
                         Text="Register"
                         TextColor="White">  
                     </Button>
@@ -85,7 +98,8 @@
 
                 <StackLayout
                     HorizontalOptions="Center"
-                    Orientation="Horizontal">
+                    Orientation="Horizontal"                    
+                    VerticalOptions="EndAndExpand">
                     <Image
                         Source="Facebook"
                         WidthRequest="65">
