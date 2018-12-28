@@ -2,7 +2,8 @@
 {
     using GalaSoft.MvvmLight.Command;
     using System.Windows.Input;
-    using Xamarin.Forms;    
+    using Xamarin.Forms;
+    using Views;
 
     public class LoginViewModel : BaseViewModel
     {
@@ -104,10 +105,13 @@
 
             this.IsRunning = false;
             this.IsEnable = true;
-            await Application.Current.MainPage.DisplayAlert(
-                    "Error",
-                    "You are in!!you're on fire!!",
-                    "Accept");
+
+            this.Email = string.Empty;
+            this.Password = string.Empty;
+
+            MainViewModel.GetInstance().Lands = new LandsViewModel();
+            await Application.Current.MainPage.Navigation.PushAsync(
+                new LandsPage());
         }
         #endregion
 
