@@ -1,8 +1,9 @@
 ﻿namespace countries.ViewModels
 {
-    using countries.Models;
+    using Models;
     using GalaSoft.MvvmLight.Command;
     using Services;
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -16,14 +17,13 @@
         #endregion
 
         #region Attributes
-        private ObservableCollection<Land> lands;
+        private ObservableCollection<LandItemViewModel> lands;
         private bool isRefresing;
-        private string filter;
-        private List<Land> landslist;
+        private string filter;       
         #endregion
 
         #region Properties
-        public ObservableCollection<Land> Lands
+        public ObservableCollection<LandItemViewModel> Lands
         {
             get { return this.lands; }
             set { SetValue(ref this.lands, value); }
@@ -86,8 +86,42 @@
                 return;
             }
 
-            this.landslist = (List<Land>)response.Result;
-            this.Lands = new ObservableCollection<Land>(landslist);
+            MainViewModel.GetInstance().landsList = (List<Land>)response.Result;
+            this.Lands = new ObservableCollection<LandItemViewModel>(
+                this.ToLandItemViewModel());
+        }
+        #endregion
+
+        #region Methods
+        private IEnumerable<LandItemViewModel> ToLandItemViewModel()
+        {
+            return MainViewModel.GetInstance().landsList.Select(l => new LandItemViewModel
+            {
+                Alpha2Code = l.Alpha2Code,
+                Alpha3Code = l.Alpha3Code,
+                AltSpellings = l.AltSpellings,
+                Area = l.Area,
+                Borders = l.Borders,
+                CallingCodes = l.CallingCodes,
+                Capital = l.Capital,
+                Cioc = l.Cioc,
+                Currencies = l.Currencies,
+                Demonym = l.Demonym,
+                Flag = l.Flag,
+                Gini = l.Gini,
+                Languages = l.Languages,
+                Latlng = l.Latlng,
+                Name = l.Name,
+                NativeName = l.NativeName,
+                NumericCode = l.NumericCode,
+                Population = l.Population,
+                Region = l.Region,
+                RegionalBlocs = l.RegionalBlocs,
+                Subregion = l.Subregion,
+                Timezones = l.Timezones,
+                TopLevelDomain = l.TopLevelDomain,
+                Translations = l.Translations,
+            });
         }
         #endregion
 
@@ -105,13 +139,13 @@
         {
             if (string.IsNullOrEmpty(this.Filter))
             {
-                this.Lands = new ObservableCollection<Land>(
-                    this.landslist);
+                this.Lands = new ObservableCollection<LandItemViewModel>(
+                    this.ToLandItemViewModel());
             }
             else
             {
-                this.Lands = new ObservableCollection<Land>(
-                    this.landslist.Where
+                this.Lands = new ObservableCollection<LandItemViewModel>(
+                    this.ToLandItemViewModel().Where
                     (l => l.Name.ToLower().Contains(this.Filter.ToLower()) ||
                           l.Capital.ToLower().Contains(this.Filter.ToLower())));
             }
