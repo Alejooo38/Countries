@@ -4,14 +4,20 @@
     using System.Windows.Input;
     using Xamarin.Forms;
     using Views;
+    using Helpers;
+    using countries.Services;
 
     public class LoginViewModel : BaseViewModel
     {
         //Aqui se deben declarar las propiedades que se bindaron en
         //la LoginPage "Deben ser del mismo tipo string, booleano etc."
-        
+
+        #region Services
+        //private ApiService apiService;
+        #endregion
+
         #region Attributes
-            private string email;
+        private string email;
             private string password;
             private bool isRunning;
             private bool isEnable;
@@ -52,8 +58,13 @@
         #region Constructors
             public LoginViewModel()
             {
+            //this.apiService = new ApiService();
+
                 this.IsRemmembered = true;
                 this.IsEnable = true;
+
+                this.Email = "druizbermud@uniminuto.edu.co";
+                this.Password = "123";
             }
         #endregion
 
@@ -71,18 +82,18 @@
             if (string.IsNullOrEmpty(this.Email))
             {
                 await Application.Current.MainPage.DisplayAlert(
-                    "Error",
-                    "You must enter an email....",
-                    "Accept");
+                    Languages.Error,
+                    Languages.EmailValidation,
+                    Languages.Accept);
                 return;
             }
 
             if (string.IsNullOrEmpty(this.Password))
             {
                 await Application.Current.MainPage.DisplayAlert(
-                    "Error",
-                    "You must enter a Password....",
-                    "Accept");
+                    Languages.Error,
+                    Languages.PasswordValidation,
+                    Languages.Accept);
                 this.Password = string.Empty;
                 return;
             }
@@ -97,9 +108,9 @@
                 this.IsEnable = true;
 
                 await Application.Current.MainPage.DisplayAlert(
-                    "Error",
-                    "Email or Password wrong....",
-                    "Accept");
+                    Languages.Error,
+                    Languages.SomethingWrong,
+                    Languages.Accept);
                 return;
             }
 

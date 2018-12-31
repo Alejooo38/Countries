@@ -2,9 +2,18 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="countries.Views.LandsPage"
+              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              BackgroundColor="Silver" 
              Title="Lands">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ffimageloadingsvg:SvgImageSourceConverter 
+                x:Key="SvgImageSourceConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     
     <ContentPage.Content>
         <StackLayout
@@ -41,16 +50,18 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
+                                    
+                                    <ffimageloading:CachedImage 
+                                        Grid.Column="0"
+                                        HeightRequest="30"
+                                        WidthRequest="60"
+                                        Source="{Binding Flag, 
+                                        Converter={StaticResource SvgImageSourceConverter}}">
+                                    </ffimageloading:CachedImage>
+
                                     <StackLayout 
                                             Grid.Column="1"
                                             VerticalOptions="Center">
-
-                                        <Image 
-                                            Grid.Column="2"
-                                            HorizontalOptions="Start" 
-                                            Source="{Binding Flag}">
-                                        </Image>
-
                                         <Label 
                                             FontAttributes="Bold"
                                             FontSize="Medium" 
